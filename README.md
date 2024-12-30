@@ -10,7 +10,10 @@ Gradient estimation is critical in zeroth-order optimization methods, which aims
 ## Usage
 Our implementation is based on the PyTorch optimizer base class.
 ```python
+from functools import partial
+
 from relizo import LIZO
+
 def main():
   model = ...
   dataloader = ...
@@ -24,13 +27,13 @@ def main():
               orthogonal_sample=False,
   )
   # Training process
-  def _closure(model=model, criterion=criterion):
+  def _closure(data, model=model, criterion=criterion):
       logits = model(data)
       loss = criterion(logits, label)
       return loss
   for data, label in dataloader:
       optimizer.zero_grad()
-      optimizer.step(closure=_closure)
+      optimizer.step(closure=partial(_closure, data))
 ```
 
 # Citation
