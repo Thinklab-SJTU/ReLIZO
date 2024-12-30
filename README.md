@@ -27,13 +27,13 @@ def main():
               orthogonal_sample=False,
   )
   # Training process
-  def _closure(data, model=model, criterion=criterion):
+  def _closure(data, label, model=model, criterion=criterion):
       logits = model(data)
       loss = criterion(logits, label)
       return loss
   for data, label in dataloader:
       optimizer.zero_grad()
-      optimizer.step(closure=partial(_closure, data))
+      optimizer.step(closure=partial(_closure, data, label))
 ```
 
 # Citation
